@@ -6,7 +6,6 @@ import 'package:ubilab_scavenger_hunt/framework/gameMenuScreen.dart';
 import 'package:ubilab_scavenger_hunt/framework/hintScreen.dart';
 import 'package:ubilab_scavenger_hunt/framework/game.dart';
 import 'package:ubilab_scavenger_hunt/framework/storyText.dart';
-import '../puzzle_base/puzzleBase.dart';
 import 'puzzle3.dart';
 
 double height = 0.0, width = 0.0;
@@ -30,6 +29,323 @@ class ThirdRoute extends StatefulWidget {
   final parameter;
   @override
   _ThirdRouteState createState() => _ThirdRouteState();
+}
+
+class _ThirdRouteState extends State<ThirdRoute > with WidgetsBindingObserver {
+
+  bool _isRecording = false;
+  StreamSubscription<NoiseReading> _noiseSubscription;
+  NoiseMeter _noiseMeter;
+  int lastKnock = 0;
+  int lastKnockTime = 0;
+  bool disableKnock = false;
+  int disableTime = 0;
+  List<int> growableList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _noiseMeter = new NoiseMeter(onError);
+    start();
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    stop();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+    switch(state){
+      case AppLifecycleState.paused:
+        stop();
+        //print('paused');
+        break;
+      case AppLifecycleState.resumed:
+        start();
+        //print('resumed');
+        break;
+      case AppLifecycleState.inactive:
+        stop();
+        //('inactive');
+        break;
+      case AppLifecycleState.detached:
+        stop();
+        //print('inactive');
+        break;
+    }
+
+  }
+
+  void onData(NoiseReading noiseReading) {
+    //print('data');
+    if (this.mounted) {
+      this.setState(() {
+        if (!this._isRecording) {
+          this._isRecording = true;
+        }
+      });
+    }
+    if (DateTime.now().millisecondsSinceEpoch - disableTime > 250) {
+      disableKnock = false;
+      c5 = Colors.blue;
+      soundIconSize = 60;
+    }
+
+    if (noiseReading.maxDecibel > 73 && !disableKnock) {
+      int time = DateTime.now().millisecondsSinceEpoch;
+      growableList.add(time);
+      //print('knock');
+      c5 = Colors.red;
+      soundIconSize = 100;
+      disableKnock = true;
+      disableTime = DateTime.now().millisecondsSinceEpoch;
+
+      //Check for pattern 2 1 1 2
+      if (growableList.length >= 5) {
+        int len = growableList.length;
+        int distance = growableList[4] - growableList[0], distance43 = growableList[4] - growableList[3], distance32 = growableList[3] - growableList[2], distance21 = growableList[2] - growableList[1], distance10 = growableList[1] - growableList[0];
+        if (distance > 2000 && distance < 5000) {
+          if ( distance43 > (distance/3 - 150)  && distance43 < (distance/3 + 150) &&
+              distance32 > (distance/6 - 150)  && distance32 < (distance/6 + 150) &&
+              distance21 > (distance/6 - 150)  && distance21 < (distance/6 + 150) &&
+              distance10 > (distance/3 - 150)  && distance10 < (distance/3 + 150)) {
+            //print('Puzzle solved');
+            //finish puzzle
+            Puzzle3.getInstance().onFinished();
+            Navigator.of(context).pop();
+          } else {
+            //print('pattern not correct');
+          }
+        } else {
+          //print('total pattern too long');
+        }
+        growableList.removeAt(0);
+      }
+    }
+  }
+
+  void onError(PlatformException e) {
+    print(e.toString());
+    _isRecording = false;
+  }
+
+  void start() async {
+    //print('start');
+    try {
+      _noiseSubscription = _noiseMeter.noiseStream.listen(onData);
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  void stop() async {
+    try {
+      if (_noiseSubscription != null) {
+        //print('stop');
+        _noiseSubscription.cancel();
+        _noiseSubscription = null;
+      }
+      /*if (this.mounted) {
+        this.setState(() {
+          this._isRecording = false;
+        });
+      }*/
+    } catch (err) {
+      print('stopRecorder error: $err');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    //start();
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('The path'),
+          automaticallyImplyLeading: false,
+          actions: [
+            hintIconButton(context),
+            gameMenuIconButton(context),
+          ],
+        ),
+        body: Container(
+            constraints: BoxConstraints.expand(),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/door2.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Stack(
+                children: <Widget>[
+                  CustomPaint( //                       <-- CustomPaint widget
+                      size: Size(1000, 1000),
+                      painter: MyPainter2()
+                  ),
+                  Positioned(
+                    top: 50*heightRatio,
+                    left: 15*widthRatio,
+                    child: Column(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.circle),
+                            color: Colors.green,
+                            onPressed: () {
+                            },
+                          ),
+                          Text('Start')
+                        ]),),
+                  Positioned(
+                    top: 50*heightRatio,
+                    left: 123*widthRatio,
+                    child: Column(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.circle),
+                            color: Colors.green,
+                            onPressed: () {
+                            },
+                          ),
+                        ]),),
+                  Positioned(
+                    top: 50*heightRatio,
+                    left: 177*widthRatio,
+                    child: IconButton(
+                      icon: Icon(Icons.circle),
+                      color: Colors.green,
+                      onPressed: () {
+                      },
+                    ),),
+                  Positioned(
+                    top: 50*heightRatio,
+                    left: 231*widthRatio,
+                    child: IconButton(
+                      icon: Icon(Icons.circle),
+                      color: Colors.green,
+                      onPressed: () {
+                      },
+                    ),),
+                  Positioned(
+                    top: 50*heightRatio,
+                    left: 340*widthRatio,
+                    child: Column(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.circle),
+                            color: Colors.green,
+                            onPressed: () {
+                            },
+                          ),
+                          Text('End')
+                        ]),),
+                  Positioned(
+                    top: 50*heightRatio,
+                    left: (15*widthRatio+123*widthRatio)/2+20,
+                    child: Column(
+                        children: <Widget>[
+                          Text('1.8', style:  TextStyle(fontWeight: FontWeight.bold))
+                        ]),),
+                  Positioned(
+                    top: 50*heightRatio,
+                    left: (123*widthRatio+177*widthRatio)/2+20,
+                    child: Column(
+                        children: <Widget>[
+                          Text('0.9', style:  TextStyle(fontWeight: FontWeight.bold))
+                        ]),),
+                  Positioned(
+                    top: 50*heightRatio,
+                    left: (177*widthRatio+231*widthRatio)/2+20,
+                    child: Column(
+                        children: <Widget>[
+                          Text('0.9', style:  TextStyle(fontWeight: FontWeight.bold))
+                        ]),),
+                  Positioned(
+                    top: 50*heightRatio,
+                    left: (231*widthRatio+340*widthRatio)/2+20,
+                    child: Column(
+                        children: <Widget>[
+                          Text('1.8', style:  TextStyle(fontWeight: FontWeight.bold))
+                        ]),),
+                  Positioned(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: IconButton(
+                          icon: Icon(Icons.text_snippet_outlined),
+                          iconSize: 60,
+                          color: Colors.blue,
+                          onPressed: () {
+                            Game.getInstance().addTextsToAlreadyShown([StoryText("Use your imagination. Sometimes there is no well known solution for a problem and some creativity is required. Imagination is a powerfull tool, to think outside the box and to make sense of seemingly unconnected things. How could the information of the extracted path connect to this sound icon?", true)]);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return MyAlertDialog(title: 'Use your imagination.', content: 'Sometimes there is no well known solution for a problem and some creativity is required. Imagination is a powerfull tool, to think outside the box and to make sense of seemingly unconnected things. How could the information of the extracted path connect to this sound icon?');
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  /*Positioned(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text('"Use your imagination". Sometimes there is no well known solution for a problem and some creativity is required. Imagination is a powerfull tool, to think outside the box and to make sense of seemingly unconnected things. How could the information of the extracted path connect to this sound icon?', style:  TextStyle(fontWeight: FontWeight.bold),)
+                  ),
+                ),
+              ),*/
+                  Positioned(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: IconButton(
+                          icon: Icon(Icons.volume_up),
+                          iconSize: soundIconSize,
+                          color: c5,
+                          onPressed: () {
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ElevatedButton(
+                            child: Text('Skip'),
+                            onPressed: () {
+                              //stop();
+                              Puzzle3.getInstance().onFinished();
+                              Navigator.of(context).pop();
+                            },
+                          )
+                      ),
+                    ),
+                  ),
+                ]
+            ))
+    );
+  }
+
 }
 
 class MyAlertDialog extends StatelessWidget {
@@ -65,279 +381,6 @@ double soundIconSize = 60;
 double appBarHeight;
 double statusBarHeight;
 
-class _ThirdRouteState extends State<ThirdRoute > {
-
-  bool _isRecording = false;
-  StreamSubscription<NoiseReading> _noiseSubscription;
-  NoiseMeter _noiseMeter;
-  int lastKnock = 0;
-  int lastKnockTime = 0;
-  bool disableKnock = false;
-  int disableTime = 0;
-  List<int> growableList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _noiseMeter = new NoiseMeter(onError);
-  }
-
-  void onData(NoiseReading noiseReading) {
-    if (this.mounted) {
-      this.setState(() {
-        if (!this._isRecording) {
-          this._isRecording = true;
-        }
-      });
-    }
-    if (DateTime.now().millisecondsSinceEpoch - disableTime > 250) {
-      disableKnock = false;
-      c5 = Colors.blue;
-      soundIconSize = 60;
-    }
-
-    if (noiseReading.maxDecibel > 72 && !disableKnock) {
-      int time = DateTime.now().millisecondsSinceEpoch;
-      growableList.add(time);
-      print('knock');
-      c5 = Colors.red;
-      soundIconSize = 100;
-      disableKnock = true;
-      disableTime = DateTime.now().millisecondsSinceEpoch;
-
-      //Check for pattern 2 1 1 2
-      if (growableList.length >= 5) {
-        int len = growableList.length;
-        int distance = growableList[4] - growableList[0], distance43 = growableList[4] - growableList[3], distance32 = growableList[3] - growableList[2], distance21 = growableList[2] - growableList[1], distance10 = growableList[1] - growableList[0];
-        if (distance < 5000) {
-          if ( distance43 > (distance/3 - 150)  && distance43 < (distance/3 + 150) &&
-              distance32 > (distance/6 - 150)  && distance32 < (distance/6 + 150) &&
-              distance21 > (distance/6 - 150)  && distance21 < (distance/6 + 150) &&
-              distance10 > (distance/3 - 150)  && distance10 < (distance/3 + 150)) {
-            print('Puzzle solved');
-            //finish puzzle
-            stop();
-            Puzzle3.getInstance().onFinished();
-            Navigator.of(context).pop();
-          } else {
-            print('pattern not correct');
-          }
-        } else {
-          print('total pattern too long');
-        }
-        growableList.removeAt(0);
-      }
-    }
-  }
-
-  void onError(PlatformException e) {
-    print(e.toString());
-    _isRecording = false;
-  }
-
-  void start() async {
-    try {
-      _noiseSubscription = _noiseMeter.noiseStream.listen(onData);
-    } catch (err) {
-      print(err);
-    }
-  }
-
-  void stop() async {
-    try {
-      if (_noiseSubscription != null) {
-        _noiseSubscription.cancel();
-        _noiseSubscription = null;
-      }
-      if (this.mounted) {
-        this.setState(() {
-          this._isRecording = false;
-        });
-      }
-    } catch (err) {
-      print('stopRecorder error: $err');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    start();
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('The path'),
-          automaticallyImplyLeading: false,
-          actions: [
-            hintIconButton(context),
-            gameMenuIconButton(context),
-          ],
-        ),
-        body: Container(
-            constraints: BoxConstraints.expand(),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/door2.jpg"),
-                fit: BoxFit.cover,
-              ),
-            ),
-        child: Stack(
-            children: <Widget>[
-              CustomPaint( //                       <-- CustomPaint widget
-                  size: Size(1000, 1000),
-                  painter: MyPainter2()
-              ),
-              Positioned(
-                top: 50*heightRatio,
-                left: 15*widthRatio,
-                child: Column(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.circle),
-                        color: Colors.green,
-                        onPressed: () {
-                        },
-                      ),
-                      Text('Start')
-                    ]),),
-              Positioned(
-                top: 50*heightRatio,
-                left: 123*widthRatio,
-                child: Column(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.circle),
-                        color: Colors.green,
-                        onPressed: () {
-                        },
-                      ),
-                    ]),),
-              Positioned(
-                top: 50*heightRatio,
-                left: 177*widthRatio,
-                child: IconButton(
-                  icon: Icon(Icons.circle),
-                  color: Colors.green,
-                  onPressed: () {
-                  },
-                ),),
-              Positioned(
-                top: 50*heightRatio,
-                left: 231*widthRatio,
-                child: IconButton(
-                  icon: Icon(Icons.circle),
-                  color: Colors.green,
-                  onPressed: () {
-                  },
-                ),),
-              Positioned(
-                top: 50*heightRatio,
-                left: 340*widthRatio,
-                child: Column(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.circle),
-                        color: Colors.green,
-                        onPressed: () {
-                        },
-                      ),
-                      Text('End')
-                    ]),),
-              Positioned(
-                top: 50*heightRatio,
-                left: (15*widthRatio+123*widthRatio)/2+20,
-                child: Column(
-                    children: <Widget>[
-                      Text('1.8', style:  TextStyle(fontWeight: FontWeight.bold))
-                    ]),),
-              Positioned(
-                top: 50*heightRatio,
-                left: (123*widthRatio+177*widthRatio)/2+20,
-                child: Column(
-                    children: <Widget>[
-                      Text('0.9', style:  TextStyle(fontWeight: FontWeight.bold))
-                    ]),),
-              Positioned(
-                top: 50*heightRatio,
-                left: (177*widthRatio+231*widthRatio)/2+20,
-                child: Column(
-                    children: <Widget>[
-                      Text('0.9', style:  TextStyle(fontWeight: FontWeight.bold))
-                    ]),),
-              Positioned(
-                top: 50*heightRatio,
-                left: (231*widthRatio+340*widthRatio)/2+20,
-                child: Column(
-                    children: <Widget>[
-                      Text('1.8', style:  TextStyle(fontWeight: FontWeight.bold))
-                    ]),),
-              Positioned(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: IconButton(
-                      icon: Icon(Icons.text_snippet_outlined),
-                      iconSize: 60,
-                      color: Colors.blue,
-                      onPressed: () {
-                        Game.getInstance().addTextsToAlreadyShown([StoryText("Use your imagination. Sometimes there is no well known solution for a problem and some creativity is required. Imagination is a powerfull tool, to think outside the box and to make sense of seemingly unconnected things. How could the information of the extracted path connect to this sound icon?", true)]);
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) {
-                            return MyAlertDialog(title: 'Use your imagination.', content: 'Sometimes there is no well known solution for a problem and some creativity is required. Imagination is a powerfull tool, to think outside the box and to make sense of seemingly unconnected things. How could the information of the extracted path connect to this sound icon?');
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
-              /*Positioned(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Text('"Use your imagination". Sometimes there is no well known solution for a problem and some creativity is required. Imagination is a powerfull tool, to think outside the box and to make sense of seemingly unconnected things. How could the information of the extracted path connect to this sound icon?', style:  TextStyle(fontWeight: FontWeight.bold),)
-                  ),
-                ),
-              ),*/
-              Positioned(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: IconButton(
-                      icon: Icon(Icons.volume_up),
-                      iconSize: soundIconSize,
-                      color: c5,
-                      onPressed: () {
-                      },
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: ElevatedButton(
-                        child: Text('Skip'),
-                        onPressed: () {
-                          stop();
-                          Puzzle3.getInstance().onFinished();
-                          Navigator.of(context).pop();
-                        },
-                      )
-                  ),
-                ),
-              ),
-            ]
-        ))
-    );
-  }
-
-}
 
 double heightRatio;
 double widthRatio;
@@ -349,9 +392,9 @@ Color c3 = Colors.blue;
 Color c4 = Colors.blue;
 Color cursorColor = Color.fromRGBO(255, 0, 0, 0);
 int xl = 0;
-int xr = 24;
+int xr = 28;
 double yu = appBarHeight + 0;
-double yd = appBarHeight + 24;
+double yd = appBarHeight + 28;
 
 bool checkReachedNode(double x, double y) {
   if ( (x > x0+xl && x < x0+xr && y > y0+yu && y < y0+yd) || (x > x1+xl && x < x1+xr && y > y1+yu && y < y1+yd) ||
@@ -424,7 +467,7 @@ class _SecondRouteState extends State<SecondRoute > {
       lastNode = 1;
       c1 = Colors.green;
       cursorColor = Color.fromRGBO(255, 0, 0, 0.4);
-      print("first node");
+      //print("first node");
     }
     if (checkReachedNode(X, Y)) {
       if (!(X > x0 + xl && X < x0 + xr && Y > y0 + yu && Y < y0 + yd) &&
@@ -434,7 +477,7 @@ class _SecondRouteState extends State<SecondRoute > {
           nodex = x3;
           nodey = y3;
           c2 = Colors.green;
-          print("second node");
+          //print("second node");
         } else {
           c1 = Colors.blue;
           lastNode = 0;
@@ -451,7 +494,7 @@ class _SecondRouteState extends State<SecondRoute > {
           nodex = x5;
           nodey = y5;
           c3 = Colors.green;
-          print("thrid node");
+          //print("thrid node");
         } else {
           c1 = Colors.blue;
           c2 = Colors.blue;
@@ -469,7 +512,7 @@ class _SecondRouteState extends State<SecondRoute > {
           nodex = x11;
           nodey = y11;
           c4 = Colors.green;
-          print("fourth node");
+          //print("fourth node");
         } else {
           c1 = Colors.blue;
           c2 = Colors.blue;
@@ -566,7 +609,7 @@ class _SecondRouteState extends State<SecondRoute > {
     );
     appBarHeight = appBar.preferredSize.height;
     double iconsize = 24;
-    print(appBarHeight);
+    //print(appBarHeight);
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
