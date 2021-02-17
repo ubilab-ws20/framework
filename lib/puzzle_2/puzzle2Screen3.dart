@@ -54,33 +54,33 @@ class Puzzle2Screen3State extends State<Puzzle2Screen3> {
     const hundredMillisecond = const Duration(milliseconds: 500);
     new Timer.periodic(
         hundredMillisecond,
-            (Timer t) => (this.mounted)
+        (Timer t) => (this.mounted)
             ? setState(() {
-          Puzzle23Variables.timeCounter++;
-          if (Puzzle23Variables.stopTimer) {
-            Puzzle23Variables.cpuUsage = 99;
-            Puzzle23Variables.timeCounter = 0;
-            Puzzle23Variables.stopTimer = false;
-          } else if ((Puzzle23Variables.cpuUsage <= 100) &&
-              (Puzzle23Variables.timeCounter == 1)) {
-            Puzzle23Variables.cpuUsage -= 5;
-          } else if (Puzzle23Variables.timeCounter == 2) {
-            Puzzle23Variables.cpuUsage += 3;
-          } else if (Puzzle23Variables.timeCounter == 3) {
-            Puzzle23Variables.cpuUsage -= 3;
-          } else if (Puzzle23Variables.timeCounter == 4) {
-            Puzzle23Variables.cpuUsage += 4;
-          } else if (Puzzle23Variables.timeCounter == 5) {
-            Puzzle23Variables.cpuUsage -= 2;
-          } else if (Puzzle23Variables.timeCounter == 6) {
-            Puzzle23Variables.cpuUsage += 3;
-          } else if (Puzzle23Variables.timeCounter == 7) {
-            Puzzle23Variables.cpuUsage -= 3;
-          } else if (Puzzle23Variables.timeCounter == 8) {
-            Puzzle23Variables.timeCounter = 0;
-            Puzzle23Variables.cpuUsage += 3;
-          }
-        })
+                Puzzle23Variables.timeCounter++;
+                if (Puzzle23Variables.stopTimer) {
+                  Puzzle23Variables.cpuUsage = 99;
+                  Puzzle23Variables.timeCounter = 0;
+                  Puzzle23Variables.stopTimer = false;
+                } else if ((Puzzle23Variables.cpuUsage <= 100) &&
+                    (Puzzle23Variables.timeCounter == 1)) {
+                  Puzzle23Variables.cpuUsage -= 5;
+                } else if (Puzzle23Variables.timeCounter == 2) {
+                  Puzzle23Variables.cpuUsage += 3;
+                } else if (Puzzle23Variables.timeCounter == 3) {
+                  Puzzle23Variables.cpuUsage -= 3;
+                } else if (Puzzle23Variables.timeCounter == 4) {
+                  Puzzle23Variables.cpuUsage += 4;
+                } else if (Puzzle23Variables.timeCounter == 5) {
+                  Puzzle23Variables.cpuUsage -= 2;
+                } else if (Puzzle23Variables.timeCounter == 6) {
+                  Puzzle23Variables.cpuUsage += 3;
+                } else if (Puzzle23Variables.timeCounter == 7) {
+                  Puzzle23Variables.cpuUsage -= 3;
+                } else if (Puzzle23Variables.timeCounter == 8) {
+                  Puzzle23Variables.timeCounter = 0;
+                  Puzzle23Variables.cpuUsage += 3;
+                }
+              })
             : null);
   }
 
@@ -258,9 +258,9 @@ class Puzzle2Screen3State extends State<Puzzle2Screen3> {
                                             238, 193, 34, 0.75)),
                                     GaugeRange(
                                         startValue:
-                                        Puzzle23Variables.puzzleSolved
-                                            ? 70
-                                            : 0,
+                                            Puzzle23Variables.puzzleSolved
+                                                ? 70
+                                                : 0,
                                         endValue: 100,
                                         startWidth: 0.265,
                                         sizeUnit: GaugeSizeUnit.factor,
@@ -380,9 +380,9 @@ class Puzzle2Screen3State extends State<Puzzle2Screen3> {
                                             238, 193, 34, 0.75)),
                                     GaugeRange(
                                         startValue:
-                                        Puzzle23Variables.puzzleSolved
-                                            ? 70
-                                            : 0,
+                                            Puzzle23Variables.puzzleSolved
+                                                ? 70
+                                                : 0,
                                         endValue: 100,
                                         startWidth: 0.265,
                                         sizeUnit: GaugeSizeUnit.factor,
@@ -505,9 +505,9 @@ class Puzzle2Screen3State extends State<Puzzle2Screen3> {
                                             238, 193, 34, 0.75)),
                                     GaugeRange(
                                         startValue:
-                                        Puzzle23Variables.puzzleSolved
-                                            ? 70
-                                            : 0,
+                                            Puzzle23Variables.puzzleSolved
+                                                ? 70
+                                                : 0,
                                         endValue: 100,
                                         startWidth: 0.265,
                                         sizeUnit: GaugeSizeUnit.factor,
@@ -669,11 +669,11 @@ class Puzzle2Screen3State extends State<Puzzle2Screen3> {
                             onPressed: () {
                               setState(() {
                                 if (((Puzzle23Variables.point1 == 2) &&
-                                    (Puzzle23Variables.point2 == 0) &&
-                                    (Puzzle23Variables.point3 == 2) &&
-                                    (Puzzle23Variables.point4 == 0) &&
-                                    (Puzzle23Variables.point5 == 2) &&
-                                    (Puzzle23Variables.point6 == 0)) ||
+                                        (Puzzle23Variables.point2 == 0) &&
+                                        (Puzzle23Variables.point3 == 2) &&
+                                        (Puzzle23Variables.point4 == 0) &&
+                                        (Puzzle23Variables.point5 == 2) &&
+                                        (Puzzle23Variables.point6 == 0)) ||
                                     ((Puzzle23Variables.point1 == 0) &&
                                         (Puzzle23Variables.point2 == 2) &&
                                         (Puzzle23Variables.point3 == 0) &&
@@ -691,7 +691,7 @@ class Puzzle2Screen3State extends State<Puzzle2Screen3> {
                                       return AlertDialog(
                                         title: Text(
                                           'Puzzle solved.'
-                                              '\r\nLook at the gauges!',
+                                          '\r\nLook at the gauges!',
                                           textAlign: TextAlign.center,
                                         ),
                                       );

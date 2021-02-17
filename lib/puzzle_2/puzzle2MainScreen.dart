@@ -6,9 +6,7 @@ import 'package:ubilab_scavenger_hunt/puzzle_2/puzzle2Screen1.dart';
 import 'package:ubilab_scavenger_hunt/puzzle_2/puzzle2Screen2.dart';
 import 'package:ubilab_scavenger_hunt/puzzle_2/puzzle2Screen3.dart';
 import 'package:ubilab_scavenger_hunt/puzzle_2/puzzle2Screen4.dart';
-import 'package:ubilab_scavenger_hunt/framework/storyText.dart';
 import 'package:ubilab_scavenger_hunt/framework/game.dart';
-import '../framework/storyText.dart';
 import 'puzzle2Screen3.dart';
 
 class Puzzle2MainScreen extends StatefulWidget {
@@ -38,34 +36,142 @@ class Puzzle2MainScreenState extends State<Puzzle2MainScreen> {
   Widget displayStory() {
     if (Puzzle2Variables.subPuzzle == 1) {
       return Container(
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Text(
-          Puzzle2Variables.story2_1,
-          textAlign: TextAlign.justify,
+        margin: EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                  top: 10.0, right: 10.0, left: 10.0, bottom: 5.0),
+              child: Text(
+                Puzzle2Variables.story2_1,
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  fontFamily: "Roboto",
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                  top: 5.0, right: 10.0, left: 10.0, bottom: 5.0),
+              child: OutlinedButton(
+                child: Text("Next"),
+                onPressed: () {
+                  displaySubPuzzle();
+                },
+              ),
+            ),
+          ],
         ),
       );
     } else if (Puzzle2Variables.subPuzzle == 2) {
       return Container(
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Text(
-          Puzzle2Variables.story2_2,
-          textAlign: TextAlign.justify,
+        margin: EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                  top: 10.0, right: 10.0, left: 10.0, bottom: 5.0),
+              child: Text(
+                Puzzle2Variables.story2_2,
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  fontFamily: "Roboto",
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                  top: 5.0, right: 10.0, left: 10.0, bottom: 5.0),
+              child: OutlinedButton(
+                child: Text("Next"),
+                onPressed: () {
+                  displaySubPuzzle();
+                },
+              ),
+            ),
+          ],
         ),
       );
     } else if (Puzzle2Variables.subPuzzle == 3) {
       return Container(
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Text(
-          Puzzle2Variables.story2_3,
-          textAlign: TextAlign.justify,
+        margin: EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                  top: 10.0, right: 10.0, left: 10.0, bottom: 5.0),
+              child: Text(
+                Puzzle2Variables.story2_3,
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  fontFamily: "Roboto",
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                  top: 5.0, right: 10.0, left: 10.0, bottom: 5.0),
+              child: OutlinedButton(
+                child: Text("Next"),
+                onPressed: () {
+                  displaySubPuzzle();
+                },
+              ),
+            ),
+          ],
         ),
       );
     } else if (Puzzle2Variables.subPuzzle == 4) {
       return Container(
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Text(
-          Puzzle2Variables.story2_4,
-          textAlign: TextAlign.justify,
+        margin: EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                  top: 10.0, right: 10.0, left: 10.0, bottom: 5.0),
+              child: Text(
+                Puzzle2Variables.story2_4,
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  fontFamily: "Roboto",
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                  top: 5.0, right: 10.0, left: 10.0, bottom: 5.0),
+              child: OutlinedButton(
+                child: Text("Next"),
+                onPressed: () {
+                  displaySubPuzzle();
+                },
+              ),
+            ),
+          ],
         ),
       );
     } else if (Puzzle2Variables.subPuzzle == 5) {
@@ -74,61 +180,37 @@ class Puzzle2MainScreenState extends State<Puzzle2MainScreen> {
       return Column();
   }
 
-  List<StoryText> textInsidePuzzle2_1 = [
-    StoryText(Puzzle2Variables.story2_1, false)
-  ];
-
-  List<StoryText> textInsidePuzzle2_1_1 = [
-    StoryText(Puzzle2Variables.story2_1_1, false),
-    StoryText(Puzzle2Variables.story2_1_2, false)
-  ];
-
-  List<StoryText> textInsidePuzzle2_2 = [
-    StoryText(Puzzle2Variables.story2_2, false)
-  ];
-
-  List<StoryText> textInsidePuzzle2_2_1 = [
-    StoryText(Puzzle2Variables.story2_2_1, true),
-    StoryText(Puzzle2Variables.story2_2_2, true)
-  ];
-
-  List<StoryText> textInsidePuzzle2_3 = [
-    StoryText(Puzzle2Variables.story2_3, false)
-  ];
-
-  List<StoryText> textInsidePuzzle2_3_1 = [
-    StoryText(Puzzle2Variables.story2_3_1, true),
-    StoryText(Puzzle2Variables.story2_3_2, false)
-  ];
-
-  List<StoryText> textInsidePuzzle2_4 = [
-    StoryText(Puzzle2Variables.story2_4, false),
-  ];
-
   displaySubPuzzle() {
     if (Puzzle2Variables.subPuzzle == 1) {
-      Game.getInstance().addTextsToAlreadyShown(textInsidePuzzle2_1);
+      Game.getInstance()
+          .addTextsToAlreadyShown(Puzzle2Variables.textInsidePuzzle2_1_start);
       Navigator.of(context).push(PageTransition(
         type: PageTransitionType.bottomToTop,
         child: Puzzle2Screen1(),
       ));
     } else if (Puzzle2Variables.subPuzzle == 2) {
-      Game.getInstance().addTextsToAlreadyShown(textInsidePuzzle2_1_1);
-      Game.getInstance().addTextsToAlreadyShown(textInsidePuzzle2_2);
+      Game.getInstance()
+          .addTextsToAlreadyShown(Puzzle2Variables.textInsidePuzzle2_1_end);
+      Game.getInstance()
+          .addTextsToAlreadyShown(Puzzle2Variables.textInsidePuzzle2_2_start);
       Navigator.of(context).push(PageTransition(
         type: PageTransitionType.bottomToTop,
         child: Puzzle2Screen2(),
       ));
     } else if (Puzzle2Variables.subPuzzle == 3) {
-      Game.getInstance().addTextsToAlreadyShown(textInsidePuzzle2_2_1);
-      Game.getInstance().addTextsToAlreadyShown(textInsidePuzzle2_3);
+      Game.getInstance()
+          .addTextsToAlreadyShown(Puzzle2Variables.textInsidePuzzle2_2_end);
+      Game.getInstance()
+          .addTextsToAlreadyShown(Puzzle2Variables.textInsidePuzzle2_3_start);
       Navigator.of(context).push(PageTransition(
         type: PageTransitionType.bottomToTop,
         child: Puzzle2Screen3(),
       ));
     } else if (Puzzle2Variables.subPuzzle == 4) {
-      Game.getInstance().addTextsToAlreadyShown(textInsidePuzzle2_3_1);
-      Game.getInstance().addTextsToAlreadyShown(textInsidePuzzle2_4);
+      Game.getInstance()
+          .addTextsToAlreadyShown(Puzzle2Variables.textInsidePuzzle2_3_end);
+      Game.getInstance()
+          .addTextsToAlreadyShown(Puzzle2Variables.textInsidePuzzle2_4_start);
       Navigator.of(context).push(PageTransition(
         type: PageTransitionType.bottomToTop,
         child: Puzzle2Screen4(),
@@ -150,44 +232,18 @@ class Puzzle2MainScreenState extends State<Puzzle2MainScreen> {
           title: Text('Finale: The Destiny'),
         ),
         body: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/blurMap.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               displayStory(),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  margin: EdgeInsets.all(20),
-                  padding: EdgeInsets.all(0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      RaisedButton.icon(
-                        padding: EdgeInsets.all(10),
-                        onPressed: () {
-                          displaySubPuzzle();
-                        },
-                        icon: Icon(
-                          Icons.next_plan_outlined,
-                          color: Colors.white,
-                          size: 30.0,
-                        ),
-                        label: Text(
-                          'Next',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 2.0),
-                        ),
-                        color: Colors.green,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
         ),

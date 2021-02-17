@@ -39,8 +39,8 @@ class Puzzle2 extends PuzzleBase {
       StoryText("Oh! You are at the right place. Now, lets go.", false),
       StoryText(
           "When we see big movies that are only about good versus evil, and the good guy wins,"
-              " we only can think we're in a far more complicated world than that."
-              "\r\nThis binary philosophy is actually a dangerous way to look at the world.",
+          " we only can think we're in a far more complicated world than that."
+          "\r\nThis binary philosophy is actually a dangerous way to look at the world.",
           true),
       StoryText("Huh!!!", false),
       StoryText(
@@ -54,12 +54,12 @@ class Puzzle2 extends PuzzleBase {
       StoryText("You have been busted", true),
       StoryText(
           "The whole mission was a sham and now time to say goodbye to this  world, that's right...this world..is cruel."
-              " \r\nI will use and manipulate all the research data to my advantage.",
+          " \r\nI will use and manipulate all the research data to my advantage.",
           true),
       StoryText(
           "It doesnt matter if it’s tragic."
-              "\r\nDoesn’t matter if it’s bad."
-              "\r\nWhatever it is, it will work to my convenience.",
+          "\r\nDoesn’t matter if it’s bad."
+          "\r\nWhatever it is, it will work to my convenience.",
           true),
       StoryText(
           "Any last words? \r\nI’m not bad, just evil. \r\nkaboom!!!", true),
@@ -75,7 +75,7 @@ class Puzzle2 extends PuzzleBase {
     Puzzle2Variables.decimalNumber = 0;
     Puzzle2Variables.cancelDownloadLoopCount = 1;
     Puzzle2Variables.magnetometerMaxValue = 100;
-    
+
     Navigator.of(context).push(PageTransition(
       type: PageTransitionType.fade,
       child: Puzzle2MainScreen(),
@@ -147,4 +147,40 @@ class Puzzle2Variables {
       "to fire up a strong Electromagnetic Pulse signal to stop the forces.";
 
   static const String story2_4_2 = "EMP signal fired!";
+
+  static List<StoryText> textInsidePuzzle2_1_start = [
+    StoryText(story2_1, false),
+    StoryText(story2_1_1, false),
+  ];
+
+  static List<StoryText> textInsidePuzzle2_1_end = [
+    StoryText(story2_1_2, false)
+  ];
+
+  static List<StoryText> textInsidePuzzle2_2_start = [
+    StoryText(story2_2, false),
+    StoryText(story2_2_1, true)
+  ];
+
+  static List<StoryText> textInsidePuzzle2_2_end = [
+    StoryText(story2_2_2, true)
+  ];
+
+  static List<StoryText> textInsidePuzzle2_3_start = [
+    StoryText(story2_3, false),
+    StoryText(story2_3_1, true)
+  ];
+
+  static List<StoryText> textInsidePuzzle2_3_end = [
+    StoryText(story2_3_2, false)
+  ];
+
+  static List<StoryText> textInsidePuzzle2_4_start = [
+    StoryText(story2_4, false),
+    StoryText(story2_4_1, true)
+  ];
+
+  static List<StoryText> textInsidePuzzle2_4_end = [
+    StoryText(story2_4_2, true),
+  ];
 }

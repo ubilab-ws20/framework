@@ -21,7 +21,7 @@ class Puzzle2Screen2State extends State<Puzzle2Screen2> {
   Vector3 _magnetometer = Vector3.zero();
 
   List<String> hintTexts = [
-    "Provide high magnetic signal for a while by using another equipment which has a magnet.",
+    "Provide high magnetic signal for 5 seconds by using another equipment which has a magnet.",
     "use another phone/laptop."
   ];
 
@@ -42,20 +42,22 @@ class Puzzle2Screen2State extends State<Puzzle2Screen2> {
 
   Widget fun1() {
     Puzzle2Variables.magnetometerZaxisValue = _magnetometer.z.round();
-    Puzzle2Variables.magnetometerProgress = (_magnetometer.z * -1) / 100;
+    Puzzle2Variables.magnetometerProgress = ((_magnetometer.z * (-1)) / 100);
     return MagnetometerValueBar();
   }
 
   Widget fun2() {
     Puzzle2Variables.magnetometerZaxisValue = _magnetometer.z.round();
-    Puzzle2Variables.magnetometerProgress = (_magnetometer.z * 1) / 100;
+    Puzzle2Variables.magnetometerProgress = (_magnetometer.z / 100);
     return MagnetometerValueBar();
   }
 
   startDownload() {
     Future.delayed(const Duration(milliseconds: 5000), () {
-      if ((Puzzle2Variables.magnetometerZaxisValue >= Puzzle2Variables.magnetometerMaxValue) ||
-          (Puzzle2Variables.magnetometerZaxisValue <= (-1*Puzzle2Variables.magnetometerMaxValue))) {
+      if ((Puzzle2Variables.magnetometerZaxisValue >=
+              Puzzle2Variables.magnetometerMaxValue) ||
+          (Puzzle2Variables.magnetometerZaxisValue <=
+              ((-1) * Puzzle2Variables.magnetometerMaxValue))) {
         Puzzle2Variables.magnetometerZaxisValue = 0;
         Puzzle2Variables.downloadStatusImage = 'assets/downloadStarted.gif';
         Puzzle2Variables.subPuzzle = 3;
@@ -68,7 +70,7 @@ class Puzzle2Screen2State extends State<Puzzle2Screen2> {
               return AlertDialog(
                 title: Text(
                   'Puzzle solved.'
-                      '\r\nDownload has started!',
+                  '\r\nDownload has started!',
                   textAlign: TextAlign.center,
                 ),
               );
@@ -77,8 +79,8 @@ class Puzzle2Screen2State extends State<Puzzle2Screen2> {
           Puzzle2Variables.cancelDownloadLoopCount = 0;
         }
         setState(() {});
+        Puzzle2Variables.magnetometerMaxValue = 1000;
       }
-      Puzzle2Variables.magnetometerMaxValue = 1000;
     });
     return Container();
   }
@@ -118,7 +120,7 @@ class Puzzle2Screen2State extends State<Puzzle2Screen2> {
                 padding: EdgeInsets.all(0),
                 child: Text(
                   Puzzle2Variables.downloadStatusImage ==
-                      'assets/downloadNotStarted.gif'
+                          'assets/downloadNotStarted.gif'
                       ? Puzzle2Variables.story2_2_1
                       : Puzzle2Variables.story2_2_2,
                   textAlign: TextAlign.justify,
@@ -149,13 +151,16 @@ class Puzzle2Screen2State extends State<Puzzle2Screen2> {
                           (_magnetometer.z.round() < 0)
                               ? fun1()
                               : (_magnetometer.z.round() >= 0)
-                              ? fun2()
-                              : dummyFunction(),
-                          (_magnetometer.z.round() <= (-1*Puzzle2Variables.magnetometerMaxValue))
+                                  ? fun2()
+                                  : dummyFunction(),
+                          (_magnetometer.z.round() <=
+                                  ((-1) *
+                                      Puzzle2Variables.magnetometerMaxValue))
                               ? startDownload()
-                              : (_magnetometer.z.round() >= Puzzle2Variables.magnetometerMaxValue)
-                              ? startDownload()
-                              : dummyFunction(),
+                              : (_magnetometer.z.round() >=
+                                      Puzzle2Variables.magnetometerMaxValue)
+                                  ? startDownload()
+                                  : dummyFunction(),
                         ],
                       ),
                     ),
