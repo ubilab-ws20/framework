@@ -184,7 +184,7 @@ class _GameMenuScreenState extends State<GameMenuScreen> {
                 style: TextStyle(fontSize: 25.0),
               ),
               Text(
-                hour >= 1 ? "Disconnected from Operator" : "",
+                hour >= globalMaxTime ? "Disconnected from Operator" : "",
                 style: TextStyle(color: Colors.red, fontSize: 10.0),
               ),
             ],
