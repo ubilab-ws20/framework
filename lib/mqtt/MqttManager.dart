@@ -15,7 +15,7 @@ class MQTTManager {
   String _hostName;
   MqttServerClient _client;
   bool _connected;
-  Map _listTeamDetails = new Map();
+  Map _mapTeamDetails = Map();
 
   MQTTManager(String hostName) {
     Uuid uuid = Uuid();
@@ -74,12 +74,12 @@ class MQTTManager {
     });
   }
 
-  /// Publish Message to given topic on the server
+  /// Publish Message to given topic on the server.
   void publishString(String topic, String message) {
-    if (globalIsTesting) {
-      print("MQTTManager::Publishing: $message");
-    }
     final builder = MqttClientPayloadBuilder();
+    if (globalIsTesting) {
+      print("MQTT: Publishing message '$message'");
+    }
     builder.addString(message);
     _client.publishMessage(topic, MqttQos.atLeastOnce, builder.payload);
   }
@@ -92,10 +92,11 @@ class MQTTManager {
     if (globalIsTesting) {
       print('MQTT: Disconnecting');
     }
-    _listTeamDetails["connected"] = false;
-    publishString(topicTest, json.encode(_listTeamDetails));
+    _mapTeamDetails["connected"] = false;
+    publishString(topicTest, json.encode(_mapTeamDetails));
     _client.disconnect();
     _gameDetailsTimer.cancel();
+    _mapTeamDetails.clear();
   }
 
   /// If currently connected to the server.
@@ -118,17 +119,17 @@ class MQTTManager {
     if (!_connected) {
       return;
     }
-    _listTeamDetails["teamID"] = _client.clientIdentifier;
-    _listTeamDetails["teamName"] = game.getTeamName();
-    _listTeamDetails["teamSize"] = game.getTeamSize().toString();
-    _listTeamDetails["hintsUsed"] = game.getAlreadyUsedHints();
-    _listTeamDetails["gameProgress"] = game.getProgress().toString();
-    _listTeamDetails["currentPuzzle"] = game.getCurrentPuzzleInfo().toString();
-    _listTeamDetails["latitude"] = currentLocation.latitude;
-    _listTeamDetails["longitude"] = currentLocation.longitude;
-    _listTeamDetails["connected"] = true;
-    _listTeamDetails["timeStamp"] = game.getAlreadyPlayedTime();
-    publishString(topicTest, json.encode(_listTeamDetails));
+    _mapTeamDetails["teamID"] = _client.clientIdentifier;
+    _mapTeamDetails["teamName"] = game.getTeamName();
+    _mapTeamDetails["teamSize"] = game.getTeamSize().toString();
+    _mapTeamDetails["hintsUsed"] = game.getAlreadyUsedHints();
+    _mapTeamDetails["gameProgress"] = game.getProgress().toString();
+    _mapTeamDetails["currentPuzzle"] = game.getCurrentPuzzleInfo().toString();
+    _mapTeamDetails["latitude"] = game.getCurrentLocation().latitude;
+    _mapTeamDetails["longitude"] = game.getCurrentLocation().longitude;
+    _mapTeamDetails["connected"] = true;
+    _mapTeamDetails["timeStamp"] = game.getAlreadyPlayedTime();
+    publishString(topicTest, json.encode(_mapTeamDetails));
   }
 
   /// Callback if connection was successful.
@@ -146,7 +147,6 @@ class MQTTManager {
       print("MQTT: Disconnected");
     }
     _connected = false;
-    _listTeamDetails.clear();
   }
 
   /// Callback if subscription to topic succeeded.
@@ -176,7 +176,7 @@ class MQTTManager {
     if (globalIsTesting) {
       print("MQTT: Received message '$message' from topic '$topic'");
     }
-    if (topic.contains("config/tag/")) {
+    if (topic.startsWith("config/tag/") && topic.endsWith("/mac")) {
       beaconName = topic;
       beaconName = beaconName.replaceAll("config/tag/", "");
       beaconName = beaconName.replaceAll("/mac", "");
