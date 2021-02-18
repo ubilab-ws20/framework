@@ -76,6 +76,12 @@ class _ThirdRouteState extends State<ThirdRoute > {
   int disableTime = 0;
   List<int> growableList = [];
 
+  @override
+  void initState() {
+    super.initState();
+    _noiseMeter = new NoiseMeter(onError);
+  }
+
   void onData(NoiseReading noiseReading) {
     if (this.mounted) {
       this.setState(() {
@@ -110,6 +116,7 @@ class _ThirdRouteState extends State<ThirdRoute > {
               distance10 > (distance/3 - 150)  && distance10 < (distance/3 + 150)) {
             print('Puzzle solved');
             //finish puzzle
+            stop();
             Puzzle3.getInstance().onFinished();
             Navigator.of(context).pop();
           } else {
@@ -153,21 +160,9 @@ class _ThirdRouteState extends State<ThirdRoute > {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _noiseMeter = new NoiseMeter(onError);
-    start();
-  }
-
-  @override
-  void deactivate() {
-    stop();
-    super.deactivate();
-  }
-
-  @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    start();
     return Scaffold(
         appBar: AppBar(
           title: Text('The path'),
@@ -329,6 +324,7 @@ class _ThirdRouteState extends State<ThirdRoute > {
                       child: ElevatedButton(
                         child: Text('Skip'),
                         onPressed: () {
+                          stop();
                           Puzzle3.getInstance().onFinished();
                           Navigator.of(context).pop();
                         },
@@ -570,6 +566,7 @@ class _SecondRouteState extends State<SecondRoute > {
     );
     appBarHeight = appBar.preferredSize.height;
     double iconsize = 24;
+    print(appBarHeight);
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
