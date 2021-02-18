@@ -42,70 +42,68 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
   Widget forgotPassword() {
     return showHint == false
         ? Container(
-      // decoration:
-      //     BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-      margin: EdgeInsets.all(0),
-      child: RaisedButton.icon(
-        // padding: EdgeInsets.all(10),
-        onPressed: () {
-          showHint = true;
-          setState(() {});
-        },
-        icon: Icon(
-          Icons.help_outline_rounded,
-          size: 30.0,
-          color: Colors.green,
-        ),
-        label: Text(
-          'Forgot password',
-          style: TextStyle(
-              color: Colors.green,
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5),
-        ),
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            side: BorderSide(color: Colors.blue)),
-      ),
-    )
+            margin: EdgeInsets.all(0),
+            child: RaisedButton.icon(
+              // padding: EdgeInsets.all(10),
+              onPressed: () {
+                showHint = true;
+                setState(() {});
+              },
+              icon: Icon(
+                Icons.help_outline_rounded,
+                size: 30.0,
+                color: Colors.green,
+              ),
+              label: Text(
+                'Forgot password',
+                style: TextStyle(
+                    color: Colors.green,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5),
+              ),
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  side: BorderSide(color: Colors.blue)),
+            ),
+          )
         : Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-          decoration:
-          BoxDecoration(border: Border.all(color: Colors.green)),
-          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                // margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                child: Text(
-                  'Code \r\nhint:',
-                  style: TextStyle(
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.5),
-                ),
-              ),
-              Container(
-                // margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                child: Image(
-                  image: AssetImage('assets/555.png'),
-                  width: 70,
-                  height: 60,
+                margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.green)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      // margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(
+                        'Code \r\nhint:',
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5),
+                      ),
+                    ),
+                    Container(
+                      // margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                      child: Image(
+                        image: AssetImage('assets/555.png'),
+                        width: 70,
+                        height: 60,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
-          ),
-        ),
-      ],
-    );
+          );
   }
 
   Widget binaryToDecimalNumber() {
@@ -147,7 +145,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
           return AlertDialog(
             title: Text(
               'Puzzle solved.'
-                  '\r\nFolder opened!',
+              '\r\nFolder opened!',
               textAlign: TextAlign.center,
             ),
           );
@@ -249,7 +247,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                   children: [
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 11'),
                         Switch(
@@ -269,7 +267,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                     ),
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 10'),
                         Switch(
@@ -289,7 +287,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                     ),
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 9'),
                         Switch(
@@ -309,7 +307,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                     ),
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 8'),
                         Switch(
@@ -335,7 +333,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                   children: [
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 7'),
                         Switch(
@@ -355,7 +353,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                     ),
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 6'),
                         Switch(
@@ -375,7 +373,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                     ),
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 5'),
                         Switch(
@@ -395,7 +393,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                     ),
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 4'),
                         Switch(
@@ -421,7 +419,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                   children: [
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 3'),
                         Switch(
@@ -441,7 +439,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                     ),
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 2'),
                         Switch(
@@ -461,7 +459,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                     ),
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 1'),
                         Switch(
@@ -481,7 +479,7 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                     ),
                     Container(
                       decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
+                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: Column(children: [
                         Text('Bit 0'),
                         Switch(
@@ -505,7 +503,6 @@ class Puzzle2Screen1State extends State<Puzzle2Screen1> {
                 Container(
                   margin: EdgeInsets.all(0),
                   child: RaisedButton.icon(
-                    // padding: EdgeInsets.all(10),
                     onPressed: () {
                       binaryToDecimalNumber();
                       enterBinaryCode();
