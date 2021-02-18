@@ -57,7 +57,7 @@ class Game {
     StoryText("Strange...", false)
   ];
 
-  final int _puzzleTriggerThreshold = 20;
+  final int _puzzleTriggerThreshold = 10;
 
   BuildContext _context;
   String _teamName = "";
