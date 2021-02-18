@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:ubilab_scavenger_hunt/puzzle_3/puzzle3Screen.dart';
+import 'package:ubilab_scavenger_hunt/puzzle_3/SecondRoute.dart';
 import 'package:ubilab_scavenger_hunt/framework/storyText.dart';
 import 'package:ubilab_scavenger_hunt/puzzle_base/puzzleBase.dart';
 
 class Puzzle3 extends PuzzleBase {
   static Puzzle3 _instance;
+  double refHeight = 683.4, refWidth = 411.4;
+  double heightRatio;
+  double widthRatio;
+  Color c1 = Colors.blue;
+  Color c2 = Colors.blue;
+  Color c3 = Colors.blue;
+  Color c4 = Colors.blue;
+  Color c5 = Colors.blue;
 
   Puzzle3() {
     _instance = this;
